@@ -1,28 +1,28 @@
 // lib/db.js
 import mongoose from 'mongoose';
 
-const MONGODB_URI = "mongodb+srv://syamsribalaji:z0GY6jyLYfJ4PoqT@temptest.e3fagdt.mongodb.net/crud";
+const MONGO_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI");
-}
+//const MONGO_URI = "mongodb+srv://syamsribalaji:z0GY6jyLYfJ4PoqT@temptest.e3fagdt.mongodb.net/crud";
+//mongodb+srv://syamsribalaji:z0GY6jyLYfJ4PoqT@temptest.e3fagdt.mongodb.net/crud
 
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
+let isConnected = false;
 
 export async function connectToDatabase() {
-  if (cached.conn) return cached.conn;
+  if (isConnected) return;
 
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI, {
+  if (!MONGO_URI) throw new Error('MONGODB_URI not set in environment');
+
+  try {
+    await mongoose.connect(MONGO_URI, {
+      dbName: 'crud',
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    }).then((mongoose) => mongoose);
+    });
+    isConnected = true;
+    console.log('MongoDB connected');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    throw err;
   }
-
-  cached.conn = await cached.promise;
-  return cached.conn;
 }
