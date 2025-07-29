@@ -1,9 +1,9 @@
 // lib/db.js
 import mongoose from 'mongoose';
 
-const MONGO_URI = process.env.MONGODB_URI;
+//const MONGO_URI = process.env.MONGODB_URI;
 
-//const MONGO_URI = "mongodb+srv://syamsribalaji:z0GY6jyLYfJ4PoqT@temptest.e3fagdt.mongodb.net/crud";
+const MONGO_URI = "mongodb+srv://syamsribalaji:z0GY6jyLYfJ4PoqT@temptest.e3fagdt.mongodb.net/crud";
 //mongodb+srv://syamsribalaji:z0GY6jyLYfJ4PoqT@temptest.e3fagdt.mongodb.net/crud
 
 let isConnected = false;
